@@ -1,9 +1,7 @@
-#include "lib-header/portio.h"
 #include "lib-header/stdtype.h"
 #include "lib-header/stdmem.h"
 #include "lib-header/gdt.h"
-#include "lib-header/framebuffer.h"
-#include "lib-header/kernel_loader.h"
+#include "lib-header/kernel-entrypoint.h"
 
 void kernel_setup(void) {
     uint32_t a;

@@ -1,5 +1,5 @@
 global loader                        ; the entry symbol for ELF
-global enter_protected_mode          ; go to protected mode
+global load_gdt          ; go to protected mode
 extern kernel_setup                  ; kernel
 
 
@@ -31,24 +31,23 @@ loader:                                        ; the loader label (defined as en
 
 
 ; More details: https://en.wikibooks.org/wiki/X86_Assembly/Protected_Mode
-enter_protected_mode:
+load_gdt:
     cli
     mov  eax, [esp+4]
-    ; TODO: Load GDT from GDTDescriptor
-    ;       eax at this line will carry GDTR location, dont forget to use square bracket [eax]
+    lgdt [eax] ; Load GDT from GDTDescriptor, eax at this line will point GDTR location
 
+    ; Set bit-0 (Protection Enable bit-flag) in Control Register 0 (CR0)
+    ; This is optional, as usually GRUB already start with protected mode flag enabled
     mov  eax, cr0
-    ; TODO: Set bit-0 (Protection Enable bit-flag) in Control Register 0 (CR0)
-    ;       Set eax with above condition, eax will be copied to CR0 with next instruction
+    or   eax, 1
     mov  cr0, eax
 
     ; Far jump to update cs register
-    ; Warning: Invalid GDT will raise exception in any instruction below
+    ; Warning: Invalid GDT will raise exception in following instruction below
     jmp 0x8:flush_cs
 flush_cs:
-    mov ax, 10h
-    ; TODO: Set all data segment register with 0x10
-    ;       Segments register need to set with 0x10: ss, ds, es
+    mov ax, 10h ; Update all segment register
     mov ss, ax
-
+    mov ds, ax
+    mov es, ax
     ret
