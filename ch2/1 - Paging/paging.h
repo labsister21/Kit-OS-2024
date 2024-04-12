@@ -9,8 +9,6 @@
 // PF Size: (1 << 22) B = 4*1024*1024 B = 4 MiB. PF memory total: 4*32 = 128 MB
 #define PAGE_FRAME_SIZE      (1 << (2 + 10 + 10))
 #define PAGE_FRAME_MAX_COUNT 32
-// Used for memory manager, invalid physical page frame value for higher half kernel
-#define PAGE_FRAME_UNMAPPED  0xFF
 
 // Operating system page directory, using page size PAGE_FRAME_SIZE (4 MiB)
 extern struct PageDirectory _paging_kernel_page_directory;
@@ -65,7 +63,7 @@ struct PageDirectory {
 /**
  * Containing page manager states.
  * 
- * @param page_frame_map Keeping track empty space
+ * @param page_frame_map Keeping track empty space. True when the page frame is currently used
  * ...
  */
 struct PageManagerState {
