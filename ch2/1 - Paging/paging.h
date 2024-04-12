@@ -5,10 +5,14 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#define PAGE_ENTRY_COUNT 1024
-// PF Size: (1 << 22) B = 4*1024*1024 B = 4 MiB. PF memory total: 4*32 = 128 MB
+// Note: MB often referring to MiB in context of memory management
+#define SYSTEM_MEMORY_MB     128
+
+#define PAGE_ENTRY_COUNT     1024
+// Page Frame (PF) Size: (1 << 22) B = 4*1024*1024 B = 4 MiB
 #define PAGE_FRAME_SIZE      (1 << (2 + 10 + 10))
-#define PAGE_FRAME_MAX_COUNT 32
+// Maximum usable page frame. Default count: 128 / 4 = 32 page frame
+#define PAGE_FRAME_MAX_COUNT ((SYSTEM_MEMORY_MB << 20) / PAGE_FRAME_SIZE)
 
 // Operating system page directory, using page size PAGE_FRAME_SIZE (4 MiB)
 extern struct PageDirectory _paging_kernel_page_directory;
