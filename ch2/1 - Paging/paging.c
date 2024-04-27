@@ -55,7 +55,7 @@ bool paging_allocate_check(uint32_t amount) {
 
 
 bool paging_allocate_user_page_frame(struct PageDirectory *page_dir, void *virtual_addr) {
-    /*
+    /**
      * TODO: Find free physical frame and map virtual frame into it
      * - Find free physical frame in page_manager_state.page_frame_map[] using any strategies
      * - Mark page_manager_state.page_frame_map[]
