@@ -61,7 +61,6 @@ struct ProcessControlBlock* process_get_current_running_pcb_pointer(void);
  * All available return code is defined with macro "PROCESS_CREATE_*"
  * 
  * @note          This procedure assumes no reentrancy in ISR
- * @warning       Assuming read(request) always success and request.buf point to load address
  * @param request Appropriate read request for the executable
  * @return        Process creation return code
  */
